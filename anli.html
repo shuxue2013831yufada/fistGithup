@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        #main{
+            margin: 100px auto 0;
+            width: 320px;
+            height: 170px;
+        }
+        #main .main-btn{
+            width: 100px;
+            height: 30px;
+        }
+        #main table{
+            width: 320px;
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        #main table th,td{
+            border: 1px solid #ccc;
+            text-align: center;
+            padding: 5px;
+        }
+        #main table th{
+            background-color: #00B7FF;
+            color: white;
+        }
+        #mask{
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.6);
+            display: none;
+        }
+        #mask--main{
+            height: 250px;
+            width: 430px;
+            position:absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            background-color: white;
+            display: none;
+        }
+        #mask--main h3{
+            height: 35px;
+            line-height: 35px;
+            background-color: #cccccc;
+            text-align: center;
+        }
+        #mask--main div{
+            margin: 20px 0 0 20px;
+        }
+        #mask--main div input{
+            height: 30px;
+            width: 300px;
+            border: 1px solid #cccccc;
+            border-radius: 3px;
+        }
+        #mask--main .mask-main-btn{
+            height: 30px;
+            width: 90px;
+            margin: 25px auto 0;
+            display: block;//?
+            /*margin: auto;*/
+        }
+        #mask--main .close{
+            position: absolute;
+            right: 20px;
+            top: 0;
+            display: inline-block;
+            width: 20px;
+            height: 35px;
+            line-height: 35px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <button class="main-btn">添加数据</button>
+    <table>
+        <thead>
+          <tr>
+            <th>电影名称</th>
+            <th>领衔主演</th>
+            <th>已完成</th>
+          </tr>
+        </thead>
+        <tbody class="tbody">
+          <tr>
+            <td>老师好</td>
+            <td>于谦</td>
+            <td>
+                <a href="javascript:;">删除</a>
+            </td>
+          </tr>
+        <tr>
+            <td>珍珠港</td>
+            <td>Nosr</td>
+            <td>
+                <a href="javascript:;">删除</a>
+            </td>
+        </tr>
+        <tr>
+            <td>反贪风暴</td>
+            <td>古天乐</td>
+            <td>
+                <a href="javascript:;">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div id="mask"></div>
+<div id="mask--main">
+    <h3>添加数据</h3>
+    <div>
+        <label>电影名称：</label>
+        <input type="text" placeholder="请输入电影名称。。。。" id="txt1">
+    </div>
+    <div>
+        <label>领衔主演：</label>
+        <input type="text" value="苍老师" id="txt2">
+    </div>
+    <button class="mask-main-btn">完成</button>
+    <span class="close">×</span>
+</div>
+
+<script type="text/javascript">
+    var btnMain = document.querySelector('#main .main-btn');
+    var mask = document.querySelector('#mask');
+    var maskMain = document.querySelector('#mask--main');
+    var tbody = document.querySelector('#main .tbody');
+    var combtn = document.querySelector('#mask--main .mask-main-btn');
+    var txt1 = document.querySelector('#mask--main #txt1');
+    var txt2 = document.querySelector('#mask--main #txt2');
+    var close = document.querySelector('#mask--main .close');
+     //添加数据
+    btnMain.onclick = function () {
+        mask.style.display = 'block';
+        maskMain.style.display = 'block';
+    }
+    //删除
+    for (var i = 0; i < tbody.children.length; i++) {
+        var tr = tbody.children[i];
+        var a = tr.getElementsByTagName('a')[0];
+        a.onclick = function () {
+            tbody.removeChild(this.parentElement.parentElement);//removeChild删除一个子节点
+        }
+    }
+    // 完成
+    combtn.onclick =function () {
+        var str1 = txt1.value.trim();
+        var str2 = txt2.value.trim();
+        if(str1&&str2){
+            mask.style.display = 'none';
+            maskMain.style.display = 'none';
+            var trs = document.createElement('tr');
+            tbody.appendChild(trs);
+            for (var i = 0; i < 3; i++) {
+                var tds = document.createElement('td');
+                trs.appendChild(tds);
+                if(i==0){
+                    tds.innerHTML = str1;
+                }else if(i==1){
+                    tds.innerHTML = str2;
+                }else {
+                    var as = document.createElement('a');
+                    as.innerHTML = '删除';
+                    as.href = '##';
+                    as.onclick = function () {
+                        tbody.removeChild(this.parentElement.parentElement);
+                    }
+                    tds.appendChild(as);
+                }
+            }
+            txt1.value = '';
+            txt2.value = '古天乐';
+        }else {
+            alert('电影名称和主演不能为空');
+        }
+    }
+    close.onclick = function () {
+        maskMain.style.display = 'none';
+        mask.style.display = 'none';
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>
